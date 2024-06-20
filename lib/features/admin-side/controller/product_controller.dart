@@ -15,6 +15,24 @@ class ProductControllerAdmin {
   final service = Get.find<HttpProductsServices>();
   final productData = Get.find<ProductDataAdmin>();
 
+  Future<ResponseModel> addProductController(ProductModel model) async {
+    final prefs = await SharedPreferences.getInstance();
+    Response response =
+        await service.addPorducts(model, prefs.getString('token') ?? "");
+
+    var responseDecode = jsonDecode(response.body);
+
+    late ResponseModel responseModel;
+
+    if (response.statusCode == 200) {
+      responseModel = ResponseModel.fromJson(responseDecode);
+    } else {
+      responseModel = ResponseModel.fromJson(responseDecode);
+    }
+
+    return responseModel;
+  }
+
   getProduct() async {
     try {
       Response response = await service.getProducts();
@@ -32,28 +50,44 @@ class ProductControllerAdmin {
         productData.setPrioritys();
         productData.setSubCategorys();
         productData.setMenu();
-
       }
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<ResponseModel> addProductController(ProductModel model) async {
-    final prefs = await SharedPreferences.getInstance();
-    Response response =
-        await service.addPorducts(model, prefs.getString('token') ?? "");
+  Future<ResponseModel> deleteProductController(String id) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      Response response =
+          await service.deleteProduct(id, prefs.getString('token') ?? '');
 
-    var responseDecode = jsonDecode(response.body);
+      var responseDecode = jsonDecode(response.body);
+      var responseModel = ResponseModel.fromJson(responseDecode);
 
-    late ResponseModel responseModel;
+      if (responseModel.status == true) {
+        productData.products.removeWhere((element) => element.productId == id);
+      }
 
-    if (response.statusCode == 200) {
-      responseModel = ResponseModel.fromJson(responseDecode);
-    } else {
-      responseModel = ResponseModel.fromJson(responseDecode);
+      return responseModel;
+    } catch (e) {
+      rethrow;
     }
+  }
 
-    return responseModel;
+  Future<ResponseModel> updateProductController(
+      String id, ProductModel model) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      Response response = await service.updateProduct(
+          id, prefs.getString('token') ?? "", model);
+
+      var responseDecode = jsonDecode(response.body);
+      var responseModel = ResponseModel.fromJson(responseDecode);
+
+      return responseModel;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

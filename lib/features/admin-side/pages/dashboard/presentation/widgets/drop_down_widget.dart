@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/theme/color_pallete.dart';
@@ -57,7 +56,7 @@ class DropDownWidget extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColorPallete.greyColor200,
             width: 2,
           ),
@@ -73,6 +72,7 @@ class DropDownWidget extends StatelessWidget {
             ),
           )
           .toList(),
+     
       onChanged: onChanged,
     );
   }

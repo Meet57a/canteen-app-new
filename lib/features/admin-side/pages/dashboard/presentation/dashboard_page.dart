@@ -1,6 +1,7 @@
 import 'package:canteen/features/admin-side/controller/product_controller.dart';
 import 'package:canteen/features/admin-side/data/product_data.dart';
 import 'package:canteen/features/admin-side/pages/dashboard/presentation/provider/product_provider.dart';
+import 'package:canteen/features/admin-side/pages/product/presentation/components/product_list_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,7 @@ import '../../../../../core/widget/big_text.dart';
 import '../../../../../core/widget/bottom_navigation_bar_custome.dart';
 import '../../../../../core/widget/custome_container.dart';
 import '../../../../../core/widget/small_text.dart';
-import '../../product/presentation/add_product_page.dart';
+import '../../product/presentation/components/add_product_page.dart';
 import 'components/analytics_section.dart';
 import 'components/product_container.dart';
 import 'components/recent_order_container.dart';
@@ -31,12 +32,6 @@ class AdminDashboardPage extends StatefulWidget {
 class _AdminDashboardPageState extends State<AdminDashboardPage> {
   final productControllerAdmin = Get.find<ProductControllerAdmin>();
   final productDataAdmin = Get.find<ProductDataAdmin>();
-
-  @override
-  void initState() {
-    super.initState();
-    productControllerAdmin.getProduct();
-  }
 
   Future refresh() async {
     await Future.delayed(const Duration(seconds: 2));
@@ -63,7 +58,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const AddProductPage(),
+                builder: (context) => const AddProductPage(productId: '',),
               ),
             );
           },
@@ -126,9 +121,11 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
               const SizedBox(height: Dimensions.defualtHeightForSpace),
 
               FutureBuilder(
-                future: Provider.of<ProductProvider>(context).getProduct(),
+                future:
+                    Provider.of<DashboardProductProvider>(context).getProduct(),
                 builder: (context, snapshot) {
-                  final provider = Provider.of<ProductProvider>(context);
+                  final provider =
+                      Provider.of<DashboardProductProvider>(context);
                   List pdata = provider.productData.products;
                   return Column(
                     children: [
@@ -234,6 +231,13 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                         child: Column(
                           children: [
                             CardWidget(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ProductList(pageId: "menu")));
+                              },
                               title: "Total Menus",
                               value:
                                   provider.productData.menus.length.toString(),
@@ -256,6 +260,14 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                                     width: Dimensions.defualtWidthForSpace),
                                 Expanded(
                                   child: CardWidget(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const ProductList(
+                                                      pageId: "categorys")));
+                                    },
                                     title: "Total Categorys",
                                     value: provider.productData.categorys.length
                                         .toString(),
@@ -271,6 +283,14 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                               children: [
                                 Expanded(
                                   child: CardWidget(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ProductList(
+                                                        pageId: "prioritys")));
+                                      },
                                       title: "Total Prioritys",
                                       value: provider
                                           .productData.prioritys.length
@@ -283,6 +303,14 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                                     width: Dimensions.defualtWidthForSpace),
                                 Expanded(
                                   child: CardWidget(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const ProductList(
+                                                      pageId: "subCategorys")));
+                                    },
                                     title: "Total Sub Categorys",
                                     value: provider
                                         .productData.subCategorys.length

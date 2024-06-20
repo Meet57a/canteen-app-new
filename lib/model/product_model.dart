@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 class ProductModel {
+  final String productId;
   final String productName;
   final String productPrice;
   final String productQuantity;
@@ -18,6 +19,7 @@ class ProductModel {
   final String? productImageString;
 
   ProductModel({
+    required this.productId,
     required this.productName,
     required this.productPrice,
     required this.productQuantity,
@@ -28,7 +30,7 @@ class ProductModel {
     this.productImage,
     this.mimeType,
     required this.productStock,
-   required this.productMenu,
+    required this.productMenu,
     required this.statusAvailable,
     required this.discountActive,
     required this.discountPercentage,
@@ -37,6 +39,7 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
+      productId: json['ProductId'],
       productName: json['ProductName'],
       productPrice: json['ProductPrice'],
       productQuantity: json['ProductQuantity'],

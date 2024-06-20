@@ -64,7 +64,7 @@ class ProductContainer extends StatelessWidget {
               ),
               Expanded(
                 child: FutureBuilder(
-                  future: Provider.of<ProductProvider>(context, listen: false)
+                  future: Provider.of<DashboardProductProvider>(context, listen: false)
                       .getProduct(),
                   builder: (context, snapshot) {
                     List pdata = productList;

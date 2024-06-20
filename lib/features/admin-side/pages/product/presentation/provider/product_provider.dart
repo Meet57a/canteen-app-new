@@ -7,11 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
-
 import '../../../../../../model/product_model.dart';
 import '../../../../../../model/response_model.dart';
 
-class AddProductProvider extends ChangeNotifier {
+class ProductProvider extends ChangeNotifier {
   final _productData = Get.find<ProductDataAdmin>();
   final productControllerAdmin = Get.find<ProductControllerAdmin>();
   final _productName = TextEditingController();
@@ -103,10 +102,35 @@ class AddProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  setField(String id) {
+    if (id.isNotEmpty) {
+      ProductModel product = _productData.products
+          .firstWhere((element) => element.productId == id);
+      _productName.text = product.productName;
+      _productDescription.text = product.productDescription;
+      _productPrice.text = product.productPrice;
+      _productQuantity.text = product.productQuantity;
+      _selectedCategory.text = product.productCategory;
+      _selectedSubCategory.text = product.subCategory;
+      _selectedPriority.text = product.priorityOfFood;
+      _stockController.text = product.productStock;
+      _menuName.text = product.productMenu;
+      _discountPercentage.text = product.discountPercentage;
+      _isAvailableStatusActive =
+          product.statusAvailable == "true" ? true : false;
+      _isDiscountActive = product.discountActive == "true" ? true : false;
+      _isWriteMenu = true;
+      _isWriteCategory = true;
+      _isWritePriorityOfFood = true;
+      _isWriteSubCategory = true;
+    }
+  }
+
   Future<ResponseModel> addProductProviderFunc() {
     setLoading();
 
     ProductModel model = ProductModel(
+      productId: "",
       productName: _productName.text.trim(),
       productPrice: _productPrice.text.trim(),
       productQuantity: _productQuantity.text.trim(),
@@ -124,9 +148,34 @@ class AddProductProvider extends ChangeNotifier {
     );
 
     var res = productControllerAdmin.addProductController(model);
-    clearProvider();
 
     return res;
+  }
+
+  Future<ResponseModel> deleteProduct(String id) {
+    return productControllerAdmin.deleteProductController(id);
+  }
+
+  Future<ResponseModel> updateProduct(String id) {
+    ProductModel model = ProductModel(
+      productId: "",
+      productName: _productName.text.trim(),
+      productPrice: _productPrice.text.trim(),
+      productQuantity: _productQuantity.text.trim(),
+      productCategory: _selectedCategory.text.trim(),
+      subCategory: _selectedSubCategory.text.trim(),
+      priorityOfFood: _selectedPriority.text.trim(),
+      productDescription: _productDescription.text.trim(),
+      productImage: _image,
+      mimeType: _mimeType,
+      productStock: _stockController.text.trim(),
+      productMenu: _menuName.text.trim(),
+      statusAvailable: _isAvailableStatusActive.toString(),
+      discountActive: _isDiscountActive.toString(),
+      discountPercentage: _discountPercentage.text.trim(),
+    );
+
+    return productControllerAdmin.updateProductController(id, model);
   }
 
   void clearProvider() {
@@ -138,6 +187,7 @@ class AddProductProvider extends ChangeNotifier {
     _selectedSubCategory.clear();
     _selectedPriority.clear();
     _stockController.clear();
+    _menuName.clear();
     _discountPercentage.clear();
     _image = null;
     _base64Image = "";
@@ -147,6 +197,6 @@ class AddProductProvider extends ChangeNotifier {
     _isWritePriorityOfFood = false;
     _isAvailableStatusActive = true;
     _isDiscountActive = false;
-    notifyListeners();
+    
   }
 }

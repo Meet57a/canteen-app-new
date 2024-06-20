@@ -63,7 +63,7 @@ class AuthProvider extends ChangeNotifier {
     } else if (user.role == "isVendor") {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) =>  AdminDashboardPage()),
+        MaterialPageRoute(builder: (context) =>  const AdminDashboardPage()),
         (route) => false,
       );
     }

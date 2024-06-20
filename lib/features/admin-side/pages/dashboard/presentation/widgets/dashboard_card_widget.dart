@@ -15,6 +15,7 @@ class CardWidget extends StatelessWidget {
   final double? height;
   final double? width;
   final Color? borderColor;
+  final VoidCallback? onTap;
 
   const CardWidget({
     super.key,
@@ -27,44 +28,49 @@ class CardWidget extends StatelessWidget {
     this.height = 90,
     this.width,
     this.borderColor,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      padding: EdgeInsets.all(padding),
-      decoration: BoxDecoration(
-          color: color,
-          // borderRadius: BorderRadius.circular(borderRadius),
-          border: Border.all(color: borderColor ?? AppColorPallete.greyColor)),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          SizedBox(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                BigText(
-                  text: value,
-                  fontWeight: FontWeight.bold,
-                ),
-                SmallText(
-                  text: title,
-                  fontWeight: FontWeight.bold,
-                ),
-              ],
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: height,
+        width: width,
+        padding: EdgeInsets.all(padding),
+        decoration: BoxDecoration(
+            color: color,
+            // borderRadius: BorderRadius.circular(borderRadius),
+            border:
+                Border.all(color: borderColor ?? AppColorPallete.greyColor)),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            SizedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  BigText(
+                    text: value,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  SmallText(
+                    text: title,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ],
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: FaIcon(
-              icon,
-              size: 20,
+            Align(
+              alignment: Alignment.topRight,
+              child: FaIcon(
+                icon,
+                size: 20,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

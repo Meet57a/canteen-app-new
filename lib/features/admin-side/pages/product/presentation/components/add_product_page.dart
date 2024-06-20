@@ -1,19 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../../core/theme/color_pallete.dart';
-import '../../../../../core/util/constants.dart';
-import '../../../../../core/widget/app_bar_widget.dart';
-import '../../../../../core/widget/big_text.dart';
-import '../../../../../core/widget/eleve_button.dart';
-import '../../../../../core/widget/small_text.dart';
-import '../../../../../core/widget/snack_bar_helper.dart';
-import '../../../../../core/widget/txt_field.dart';
-import '../../dashboard/presentation/widgets/drop_down_widget.dart';
-import 'provider/add_product_provider.dart';
+import '../../../../../../core/theme/color_pallete.dart';
+import '../../../../../../core/util/constants.dart';
+import '../../../../../../core/widget/app_bar_widget.dart';
+import '../../../../../../core/widget/big_text.dart';
+import '../../../../../../core/widget/eleve_button.dart';
+import '../../../../../../core/widget/small_text.dart';
+import '../../../../../../core/widget/snack_bar_helper.dart';
+import '../../../../../../core/widget/txt_field.dart';
+import '../../../../../../model/product_model.dart';
+import '../../../dashboard/presentation/widgets/drop_down_widget.dart';
+import '../provider/product_provider.dart';
 
-class AddProductPage extends StatelessWidget {
-  const AddProductPage({super.key});
+class AddProductPage extends StatefulWidget {
+  final String productId;
+  const AddProductPage({super.key, required this.productId});
+
+  @override
+  State<AddProductPage> createState() => _AddProductPageState();
+}
+
+class _AddProductPageState extends State<AddProductPage> {
+  @override
+  void initState() {
+    super.initState();
+    final provider = Provider.of<ProductProvider>(context, listen: false);
+    provider.clearProvider();
+    provider.setField(widget.productId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +43,7 @@ class AddProductPage extends StatelessWidget {
         padding:
             const EdgeInsets.symmetric(horizontal: Dimensions.defaultPadding),
         child: SingleChildScrollView(
-          child: Consumer<AddProductProvider>(
+          child: Consumer<ProductProvider>(
             builder: (context, value, child) {
               return Column(
                 children: [
@@ -340,18 +355,38 @@ class AddProductPage extends StatelessWidget {
                   ElevatedButtonCustom(
                     onPressed: () {
                       if (value.addProductKey.currentState!.validate()) {
-                        value.addProductProviderFunc().then(
-                          (val) {
-                            if (val.status) {
-                              value.setLoading();
-                              SnackBarHelper.showSnackBar(
-                                  context, val.message, false);
-                            } else {
-                              SnackBarHelper.showSnackBar(
-                                  context, val.message, true);
-                            }
-                          },
-                        );
+                        if (widget.productId.isEmpty) {
+                          value.addProductProviderFunc().then(
+                            (val) {
+                              if (val.status) {
+                                value.setLoading();
+                                SnackBarHelper.showSnackBar(
+                                    context, val.message, false);
+                                Navigator.pop(context);
+                                value.clearProvider();
+                              } else {
+                                SnackBarHelper.showSnackBar(
+                                    context, val.message, true);
+                              }
+                            },
+                          );
+                        } else {
+                          value.updateProduct(widget.productId).then(
+                            (val) {
+                              if (val.status) {
+                                value.setLoading();
+                                SnackBarHelper.showSnackBar(
+                                    context, val.message, false);
+                                value.setLoading();
+                                Navigator.pop(context);
+                                value.clearProvider();
+                              } else {
+                                SnackBarHelper.showSnackBar(
+                                    context, val.message, true);
+                              }
+                            },
+                          );
+                        }
 
                         // value.clearProvider();
                       }
@@ -363,11 +398,13 @@ class AddProductPage extends StatelessWidget {
                     borderColor: AppColorPallete.primaryColor,
                     isBorderOn: true,
                     child: !value.isLoading
-                        ? const Row(
+                        ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               BigText(
-                                text: "Add Product",
+                                text: widget.productId.isEmpty
+                                    ? "Add Product"
+                                    : "Update Product",
                                 color: AppColorPallete.whiteColor,
                               ),
                               SizedBox(width: Dimensions.defualtWidthForSpace),

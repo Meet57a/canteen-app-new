@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../../../core/theme/color_pallete.dart';
-import '../../../../../../core/util/constants.dart';
-import '../../../../../../core/widget/app_bar_widget.dart';
-import '../../../../../../core/widget/big_text.dart';
-import '../../../../../../core/widget/eleve_button.dart';
-import '../../../../../../core/widget/small_text.dart';
-import '../../../../../../core/widget/snack_bar_helper.dart';
-import '../../../../../../core/widget/txt_field.dart';
-import '../../../../../../model/product_model.dart';
-import '../../../dashboard/presentation/widgets/drop_down_widget.dart';
-import '../provider/product_provider.dart';
+import '../../../../../../../core/theme/color_pallete.dart';
+import '../../../../../../../core/util/constants.dart';
+import '../../../../../../../core/widget/app_bar_widget.dart';
+import '../../../../../../../core/widget/big_text.dart';
+import '../../../../../../../core/widget/eleve_button.dart';
+import '../../../../../../../core/widget/small_text.dart';
+import '../../../../../../../core/widget/snack_bar_helper.dart';
+import '../../../../../../../core/widget/txt_field.dart';
+import '../../../../../../../model/product_model.dart';
+import '../../../../dashboard/presentation/widgets/drop_down_widget.dart';
+import '../../provider/product_provider.dart';
 
 class AddProductPage extends StatefulWidget {
   final String productId;
@@ -33,10 +33,12 @@ class _AddProductPageState extends State<AddProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size(double.infinity, 40),
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, 40),
         child: AppBarWidget(
-          title: "Add Product Form",
+          title: widget.productId.isEmpty
+              ? "Add Product Form"
+              : "Edit Product Form",
         ),
       ),
       body: Padding(
@@ -407,8 +409,8 @@ class _AddProductPageState extends State<AddProductPage> {
                                     : "Update Product",
                                 color: AppColorPallete.whiteColor,
                               ),
-                              SizedBox(width: Dimensions.defualtWidthForSpace),
-                              Icon(
+                              const SizedBox(width: Dimensions.defualtWidthForSpace),
+                              const Icon(
                                 Icons.arrow_forward_ios,
                                 size: 18,
                                 color: AppColorPallete.whiteColor,

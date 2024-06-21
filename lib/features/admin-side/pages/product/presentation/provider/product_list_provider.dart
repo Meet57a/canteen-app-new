@@ -38,6 +38,27 @@ class ProductListProvider extends ChangeNotifier {
     }
   }
 
+  setDataZerothIndex(String pageId, String id) {
+    if (pageId == "categorys") {
+      _products = _productData.products
+          .where((element) => element.productCategory == id)
+          .toList();
+    } else if (pageId == "prioritys") {
+      _products = _productData.products
+          .where((element) => element.priorityOfFood == id)
+          .toList();
+    } else if (pageId == "subCategorys") {
+      _products = _productData.products
+          .where((element) => element.subCategory == id)
+          .toList();
+    } else if (pageId == "menu") {
+      _products = _productData.products
+          .where((element) => element.productMenu == id)
+          .toList();
+    }
+
+  }
+
   setData(int index, String pageId, String id) {
     _indexPage = index;
 

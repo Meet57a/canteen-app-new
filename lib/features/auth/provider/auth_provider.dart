@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../model/auth_model.dart';
 import '../../admin-side/pages/dashboard/presentation/dashboard_page.dart';
+import '../../user-side/pages/user-home/user_home_page.dart';
 import '../controller/auth_controller.dart';
 import '../../../model/response_model.dart';
 import '../../../model/user_data_model.dart';
@@ -17,6 +18,7 @@ class AuthProvider extends ChangeNotifier {
   bool _isPasswordVisible = true;
   final _registerFormKey = GlobalKey<FormState>();
   final _loginFormKey = GlobalKey<FormState>();
+  bool _isLoading = false;
 
   TextEditingController get fullName => _fullName;
   TextEditingController get mobileNumber => _mobileNumber;
@@ -26,6 +28,7 @@ class AuthProvider extends ChangeNotifier {
   bool get isPasswordVisible => _isPasswordVisible;
   GlobalKey<FormState> get registerFormKey => _registerFormKey;
   GlobalKey<FormState> get loginFormKey => _loginFormKey;
+  bool get isLoading => _isLoading;
 
   void togglePasswordVisibility() {
     _isPasswordVisible = !_isPasswordVisible;
@@ -43,27 +46,37 @@ class AuthProvider extends ChangeNotifier {
     return authController.registerController(model);
   }
 
-  Future<ResponseModel> loginProvider() {
+  setLoading() {
+    _isLoading = !_isLoading;
+    notifyListeners();
+  }
+
+  Future<ResponseModel> loginProvider() async {
+    setLoading();
     AuthModel model = AuthModel(
       eMail: _eMail.text,
       passWord: _passWord.text,
     );
-    return authController.loginController(model);
+    ResponseModel res = await authController.loginController(model);
+    setLoading();
+    return res;
   }
 
   naviGateTo(BuildContext context) {
     final user = Get.find<UserDataModel>();
 
+    print(user.role);
+
     if (user.role == "isUser") {
-      // Navigator.pushAndRemoveUntil(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => const HomePageUser()),
-      //   (route) => false,
-      // );
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePageUser()),
+        (route) => false,
+      );
     } else if (user.role == "isVendor") {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) =>  const AdminDashboardPage()),
+        MaterialPageRoute(builder: (context) => const AdminDashboardPage()),
         (route) => false,
       );
     }

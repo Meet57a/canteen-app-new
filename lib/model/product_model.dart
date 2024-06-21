@@ -16,7 +16,7 @@ class ProductModel {
   final String statusAvailable;
   final String discountActive;
   final String discountPercentage;
-  final String? productImageString;
+  final String productImageString;
 
   ProductModel({
     required this.productId,
@@ -34,7 +34,7 @@ class ProductModel {
     required this.statusAvailable,
     required this.discountActive,
     required this.discountPercentage,
-    this.productImageString,
+    required this.productImageString,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {

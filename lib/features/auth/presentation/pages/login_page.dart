@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/theme/color_pallete.dart';
@@ -119,11 +118,15 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     },
                     color: AppColorPallete.primaryColor,
-                    child: const BigText(
-                      text: "Login",
-                      color: Colors.white,
-                      size: 15,
-                    ),
+                    child: value.isLoading == false
+                        ? const BigText(
+                            text: "Login",
+                            color: Colors.white,
+                            size: 15,
+                          )
+                        : const CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
                   ),
                   const SizedBox(height: 20),
                   const Row(

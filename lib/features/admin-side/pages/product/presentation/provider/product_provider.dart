@@ -12,6 +12,8 @@ import '../../../../../../model/response_model.dart';
 
 class ProductProvider extends ChangeNotifier {
   final _productData = Get.find<ProductDataAdmin>();
+  final productController = Get.find<ProductControllerAdmin>();
+
   final productControllerAdmin = Get.find<ProductControllerAdmin>();
   final _productName = TextEditingController();
   final _productDescription = TextEditingController();
@@ -72,6 +74,15 @@ class ProductProvider extends ChangeNotifier {
       _isWriteMenu = isWrite;
     }
     notifyListeners();
+  }
+
+  getProduct() async {
+    await productController.getProduct();
+    _productData.setCategorys();
+    _productData.setPrioritys();
+    _productData.setSubCategorys();
+    _productData.setMenu();
+
   }
 
   void setStatus(bool isActive, String statusName) {
@@ -145,6 +156,7 @@ class ProductProvider extends ChangeNotifier {
       statusAvailable: _isAvailableStatusActive.toString(),
       discountActive: _isDiscountActive.toString(),
       discountPercentage: _discountPercentage.text.trim(),
+      productImageString: "",
     );
 
     var res = productControllerAdmin.addProductController(model);
@@ -173,6 +185,7 @@ class ProductProvider extends ChangeNotifier {
       statusAvailable: _isAvailableStatusActive.toString(),
       discountActive: _isDiscountActive.toString(),
       discountPercentage: _discountPercentage.text.trim(),
+      productImageString: ""
     );
 
     return productControllerAdmin.updateProductController(id, model);
@@ -197,6 +210,5 @@ class ProductProvider extends ChangeNotifier {
     _isWritePriorityOfFood = false;
     _isAvailableStatusActive = true;
     _isDiscountActive = false;
-    
   }
 }

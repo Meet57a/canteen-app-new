@@ -34,9 +34,10 @@ class AuthServices {
     }
   }
 
-  logOut() async {
+ Future<bool> logOut() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
+    await prefs.clear();
+    print(prefs.getString('token'));
     return true;
   }
 }

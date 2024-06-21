@@ -31,7 +31,7 @@ class SmallText extends StatelessWidget {
       overflow: textOverflow,
       style: TextStyle(
         fontSize: size,
-        color: color,
+        color: color ?? Theme.of(context).textTheme.displayLarge!.color,
         fontWeight: fontWeight,
         decoration: textDecoration,
         decorationColor: decorationColor,

@@ -1,5 +1,7 @@
+import 'package:canteen/core/provider/drawer_provider.dart';
 import 'package:canteen/core/theme/theme_provider.dart';
 import 'package:canteen/features/admin-side/pages/dashboard/presentation/provider/product_provider.dart';
+import 'package:canteen/features/admin-side/pages/product/presentation/provider/add_component_provider.dart';
 import 'package:canteen/features/admin-side/pages/product/presentation/provider/product_provider.dart';
 import 'package:canteen/features/auth/provider/auth_provider.dart';
 import 'package:canteen/features/splash-screen/presentation/pages/splash_screen_page.dart';
@@ -30,19 +32,29 @@ class MyApp extends StatelessWidget {
           create: (_) => ThemeProvider(),
         ),
         ChangeNotifierProvider(
+          create: (_) => DrawerProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (_) => DashboardProductProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
         ),
-         ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (_) => ProductListProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => AddAndEditComponentProvider(),
+        ),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeProvider().themeData,
-        home: const SplashPage(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, value, child) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            theme: value.themeData,
+            home: const SplashPage(),
+          );
+        },
       ),
     );
   }

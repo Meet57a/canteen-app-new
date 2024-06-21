@@ -5,16 +5,36 @@ import 'package:canteen/core/widget/app_bar_widget.dart';
 import 'package:canteen/core/widget/big_text.dart';
 import 'package:canteen/core/widget/small_text.dart';
 import 'package:canteen/core/widget/snack_bar_helper.dart';
-import 'package:canteen/features/admin-side/pages/product/presentation/components/add_product_page.dart';
+import 'package:canteen/features/admin-side/pages/product/presentation/components/add-component/add_product_page.dart';
 import 'package:canteen/features/admin-side/pages/product/presentation/provider/product_provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/product_list_provider.dart';
 
-class ProductList extends StatelessWidget {
+class ProductList extends StatefulWidget {
   final String pageId;
   const ProductList({super.key, required this.pageId});
+
+  @override
+  State<ProductList> createState() => _ProductListState();
+}
+
+class _ProductListState extends State<ProductList> {
+  @override
+  void initState() {
+    super.initState();
+    final provider = Provider.of<ProductListProvider>(context, listen: false);
+    provider.getHeader(widget.pageId);
+    String id = widget.pageId == "categorys"
+        ? provider.cate[0].name
+        : widget.pageId == "prioritys"
+            ? provider.prio[0].name
+            : widget.pageId == "subCategorys"
+                ? provider.subCate[0].name
+                : provider.menu[0].name;
+    provider.setDataZerothIndex(widget.pageId, id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +51,12 @@ class ProductList extends StatelessWidget {
             width: double.infinity,
             child: Consumer<ProductListProvider>(
               builder: (context, value, child) {
-                value.getHeader(pageId);
-                int count = pageId == "categorys"
+                value.getHeader(widget.pageId);
+                int count = widget.pageId == "categorys"
                     ? value.cate.length
-                    : pageId == "prioritys"
+                    : widget.pageId == "prioritys"
                         ? value.prio.length
-                        : pageId == "subCategorys"
+                        : widget.pageId == "subCategorys"
                             ? value.subCate.length
                             : value.menu.length;
                 return ListView.builder(
@@ -46,11 +66,11 @@ class ProductList extends StatelessWidget {
                       horizontal: Dimensions.defaultPadding),
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
-                    String id = pageId == "categorys"
+                    String id = widget.pageId == "categorys"
                         ? value.cate[index].name
-                        : pageId == "prioritys"
+                        : widget.pageId == "prioritys"
                             ? value.prio[index].name
-                            : pageId == "subCategorys"
+                            : widget.pageId == "subCategorys"
                                 ? value.subCate[index].name
                                 : value.menu[index].name;
 
@@ -59,7 +79,7 @@ class ProductList extends StatelessWidget {
                           horizontal: Dimensions.defaultPadding),
                       child: InkWell(
                         onTap: () {
-                          value.setData(index, pageId, id);
+                          value.setData(index, widget.pageId, id);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -72,15 +92,15 @@ class ProductList extends StatelessWidget {
                                   )
                                 : null,
                           ),
-                          child: pageId == "categorys"
+                          child: widget.pageId == "categorys"
                               ? SmallText(
                                   text: value.cate[index].name,
                                 )
-                              : pageId == "prioritys"
+                              : widget.pageId == "prioritys"
                                   ? SmallText(
                                       text: value.prio[index].name,
                                     )
-                                  : pageId == "subCategorys"
+                                  : widget.pageId == "subCategorys"
                                       ? SmallText(
                                           text: value.subCate[index].name,
                                         )
@@ -123,7 +143,10 @@ class ProductList extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                AddProductPage(productId: value.products[index].productId)));
+                                                AddProductPage(
+                                                    productId: value
+                                                        .products[index]
+                                                        .productId)));
                                   },
                                   icon: const Icon(Icons.edit)),
                               IconButton(
@@ -137,7 +160,7 @@ class ProductList extends StatelessWidget {
                                                     context,
                                                     listen: false)
                                                 .deleteProduct(value
-                                                    .products[index].productId!)
+                                                    .products[index].productId)
                                                 .then(
                                                   (val) => {
                                                     if (val.status == true)

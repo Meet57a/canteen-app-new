@@ -2,6 +2,8 @@ import 'package:canteen/core/data/user_data_provider.dart';
 import 'package:canteen/features/admin-side/controller/product_controller.dart';
 import 'package:canteen/features/admin-side/data/product_data.dart';
 import 'package:canteen/features/auth/controller/auth_controller.dart';
+import 'package:canteen/features/user-side/controller/product_controller.dart';
+import 'package:canteen/features/user-side/data/product_data.dart';
 import 'package:canteen/services/http_auth_services.dart';
 import 'package:canteen/services/http_product_services.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,8 @@ Future<void> init() async {
 
   Get.lazyPut(() => UserDataProvider());
   Get.lazyPut(() => ProductDataAdmin());
+  Get.lazyPut(() => ProductDataUser());
+
 
   // model
   Get.lazyPut(
@@ -23,7 +27,6 @@ Future<void> init() async {
       eMail: sharedPreferences.getString("eMail") ?? '',
       mobileNo: sharedPreferences.getString("mobileNo") ?? '',
       role: sharedPreferences.getString("role") ?? '',
-      
       userId: sharedPreferences.getString("userId") ?? '',
       isLoggedIn: sharedPreferences.getBool("isLoggedIn") ?? false,
     ),
@@ -33,9 +36,10 @@ Future<void> init() async {
 
   Get.lazyPut(() => AuthController());
   Get.lazyPut(() => ProductControllerAdmin());
+  Get.lazyPut(() => ProductControllerUser());
+
 
   //Services
   Get.lazyPut(() => HttpProductsServices());
   Get.lazyPut(() => AuthServices());
-
 }

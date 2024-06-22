@@ -16,6 +16,8 @@ class PosterContainer extends StatelessWidget {
       child: ListView.builder(
         itemCount: 2,
         scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(right: Dimensions.defaultPadding),

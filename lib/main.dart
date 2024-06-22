@@ -5,6 +5,8 @@ import 'package:canteen/features/admin-side/pages/product/presentation/provider/
 import 'package:canteen/features/admin-side/pages/product/presentation/provider/product_provider.dart';
 import 'package:canteen/features/auth/provider/auth_provider.dart';
 import 'package:canteen/features/splash-screen/presentation/pages/splash_screen_page.dart';
+import 'package:canteen/features/user-side/pages/user-home/provider/home_page_provider.dart';
+import 'package:canteen/features/user-side/pages/user-product/provider/product_details_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:canteen/core/helper/dependencies.dart' as dep;
@@ -45,6 +47,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => AddAndEditComponentProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => HomePageProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductDetailsProvider(),
         ),
       ],
       child: Consumer<ThemeProvider>(

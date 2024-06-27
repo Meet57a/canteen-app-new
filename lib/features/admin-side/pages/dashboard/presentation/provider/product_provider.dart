@@ -30,12 +30,9 @@ class DashboardProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getProduct() async {
-    await productController.getProduct();
-    _productData.setCategorys();
-    _productData.setPrioritys();
-    _productData.setSubCategorys();
-    _productData.setMenu();
+  getAll() async {
+    await productController.getAll();
+    print("object");
   }
 
   getHeader(String pageId) {
@@ -56,6 +53,6 @@ class DashboardProductProvider extends ChangeNotifier {
 
   Future refresh() async {
     await Future.delayed(const Duration(seconds: 2));
-    await productController.getProduct();
+    await productController.getAll();
   }
 }

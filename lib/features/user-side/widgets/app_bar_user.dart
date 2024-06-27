@@ -1,5 +1,6 @@
 import 'package:canteen/core/theme/color_pallete.dart';
 import 'package:canteen/core/util/constants.dart';
+import 'package:canteen/features/user-side/pages/order-product/order_show_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/util/image_strings.dart';
@@ -24,10 +25,9 @@ class AppBarUser extends StatelessWidget {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3),
+                  color: Colors.grey.shade300,
+                  blurRadius: 15,
+                  offset: const Offset(6, 9),
                 ),
               ],
               borderRadius: BorderRadius.circular(8),
@@ -55,8 +55,10 @@ class AppBarUser extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => ProfilePage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const OrdersShowPage()));
             },
             child: Container(
               height: 40,
@@ -67,10 +69,9 @@ class AppBarUser extends StatelessWidget {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3),
+                    color: Colors.grey.shade300,
+                    blurRadius: 15,
+                    offset: const Offset(6, 9),
                   ),
                 ],
                 borderRadius: BorderRadius.circular(8),

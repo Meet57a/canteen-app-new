@@ -159,7 +159,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                       !value.isWriteMenu, "menu");
                                 },
                                 onChanged: (val) {
-                                  value.selectedCategory.text = val;
+                                  value.menuName.text = val;
                                 },
                                 hintText: "Select Menu",
                                 validatorText: "Menu",
@@ -188,7 +188,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         (value.isWriteCategory == false)
                             ? DropDownWidget(
                                 list: value.productData.categorys
-                                    .map((e) => e.name)
+                                    .map((e) => e.categoryNameMain)
                                     .toList(),
                                 onPressed: () {
                                   value.setWritingState(
@@ -224,7 +224,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         (value.isWriteSubCategory == false)
                             ? DropDownWidget(
                                 list: value.productData.subCategorys
-                                    .map((e) => e.name)
+                                    .map((e) => e.subCategory)
                                     .toList(),
                                 onPressed: () {
                                   value.setWritingState(
@@ -409,7 +409,8 @@ class _AddProductPageState extends State<AddProductPage> {
                                     : "Update Product",
                                 color: AppColorPallete.whiteColor,
                               ),
-                              const SizedBox(width: Dimensions.defualtWidthForSpace),
+                              const SizedBox(
+                                  width: Dimensions.defualtWidthForSpace),
                               const Icon(
                                 Icons.arrow_forward_ios,
                                 size: 18,

@@ -25,7 +25,7 @@ class SplashScreenController {
         } else if (isLogedIn == true && role == "isVendor") {
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => AdminDashboardPage()),
+              MaterialPageRoute(builder: (context) => const AdminDashboardPage()),
               (route) => false);
         } else {
           Navigator.push(context,

@@ -5,6 +5,7 @@ class UserDataModel {
   String role;
   String token;
   String userId;
+  String address;
   bool? isLoggedIn;
 
   UserDataModel({
@@ -14,9 +15,7 @@ class UserDataModel {
     required this.role,
     required this.token,
     required this.userId,
+    required this.address,
     this.isLoggedIn,
   });
-
-
-
 }

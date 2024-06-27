@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:canteen/features/admin-side/controller/product_controller.dart';
 import 'package:canteen/features/admin-side/data/product_data.dart';
 import 'package:flutter/material.dart';
@@ -77,12 +78,7 @@ class ProductProvider extends ChangeNotifier {
   }
 
   getProduct() async {
-    await productController.getProduct();
-    _productData.setCategorys();
-    _productData.setPrioritys();
-    _productData.setSubCategorys();
-    _productData.setMenu();
-
+    await productController.getAll();
   }
 
   void setStatus(bool isActive, String statusName) {
@@ -119,7 +115,7 @@ class ProductProvider extends ChangeNotifier {
           .firstWhere((element) => element.productId == id);
       _productName.text = product.productName;
       _productDescription.text = product.productDescription;
-      _productPrice.text = product.productPrice;
+      _productPrice.text = product.productPrice.toString();
       _productQuantity.text = product.productQuantity;
       _selectedCategory.text = product.productCategory;
       _selectedSubCategory.text = product.subCategory;
@@ -141,23 +137,23 @@ class ProductProvider extends ChangeNotifier {
     setLoading();
 
     ProductModel model = ProductModel(
-      productId: "",
-      productName: _productName.text.trim(),
-      productPrice: _productPrice.text.trim(),
-      productQuantity: _productQuantity.text.trim(),
-      productCategory: _selectedCategory.text.trim(),
-      subCategory: _selectedSubCategory.text.trim(),
-      priorityOfFood: _selectedPriority.text.trim(),
-      productDescription: _productDescription.text.trim(),
-      productImage: _image,
-      mimeType: _mimeType,
-      productStock: _stockController.text.trim(),
-      productMenu: _menuName.text.trim(),
-      statusAvailable: _isAvailableStatusActive.toString(),
-      discountActive: _isDiscountActive.toString(),
-      discountPercentage: _discountPercentage.text.trim(),
-      productImageString: "",
-    );
+        productId: "",
+        productName: _productName.text.trim(),
+        productPrice: double.parse(_productPrice.text.trim()),
+        productQuantity: _productQuantity.text.trim(),
+        productCategory: _selectedCategory.text.trim(),
+        subCategory: _selectedSubCategory.text.trim(),
+        priorityOfFood: _selectedPriority.text.trim(),
+        productDescription: _productDescription.text.trim(),
+        productImage: _image,
+        mimeType: _mimeType,
+        productStock: _stockController.text.trim(),
+        productMenu: _menuName.text.trim(),
+        statusAvailable: _isAvailableStatusActive.toString(),
+        discountActive: _isDiscountActive.toString(),
+        discountPercentage: _discountPercentage.text.trim(),
+        productImageString: "",
+        isInCart: false);
 
     var res = productControllerAdmin.addProductController(model);
 
@@ -172,7 +168,7 @@ class ProductProvider extends ChangeNotifier {
     ProductModel model = ProductModel(
       productId: "",
       productName: _productName.text.trim(),
-      productPrice: _productPrice.text.trim(),
+      productPrice: _productPrice.text.trim().toDouble(),
       productQuantity: _productQuantity.text.trim(),
       productCategory: _selectedCategory.text.trim(),
       subCategory: _selectedSubCategory.text.trim(),
@@ -185,7 +181,8 @@ class ProductProvider extends ChangeNotifier {
       statusAvailable: _isAvailableStatusActive.toString(),
       discountActive: _isDiscountActive.toString(),
       discountPercentage: _discountPercentage.text.trim(),
-      productImageString: ""
+      productImageString: "",
+      isInCart: false,
     );
 
     return productControllerAdmin.updateProductController(id, model);

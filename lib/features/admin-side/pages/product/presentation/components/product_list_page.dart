@@ -27,11 +27,11 @@ class _ProductListState extends State<ProductList> {
     final provider = Provider.of<ProductListProvider>(context, listen: false);
     provider.getHeader(widget.pageId);
     String id = widget.pageId == "categorys"
-        ? provider.cate[0].name
+        ? provider.cate[0].categoryNameMain
         : widget.pageId == "prioritys"
             ? provider.prio[0].name
             : widget.pageId == "subCategorys"
-                ? provider.subCate[0].name
+                ? provider.subCate[0].subCategory
                 : provider.menu[0].name;
     provider.setDataZerothIndex(widget.pageId, id);
   }
@@ -67,11 +67,11 @@ class _ProductListState extends State<ProductList> {
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     String id = widget.pageId == "categorys"
-                        ? value.cate[index].name
+                        ? value.cate[index].categoryNameMain
                         : widget.pageId == "prioritys"
                             ? value.prio[index].name
                             : widget.pageId == "subCategorys"
-                                ? value.subCate[index].name
+                                ? value.subCate[index].subCategory
                                 : value.menu[index].name;
 
                     return Padding(
@@ -94,7 +94,7 @@ class _ProductListState extends State<ProductList> {
                           ),
                           child: widget.pageId == "categorys"
                               ? SmallText(
-                                  text: value.cate[index].name,
+                                  text: value.cate[index].categoryNameMain,
                                 )
                               : widget.pageId == "prioritys"
                                   ? SmallText(
@@ -102,7 +102,7 @@ class _ProductListState extends State<ProductList> {
                                     )
                                   : widget.pageId == "subCategorys"
                                       ? SmallText(
-                                          text: value.subCate[index].name,
+                                          text: value.subCate[index].subCategory,
                                         )
                                       : SmallText(
                                           text: value.menu[index].name,

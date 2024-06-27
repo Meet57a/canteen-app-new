@@ -3,7 +3,8 @@ import 'dart:typed_data';
 class ProductModel {
   final String productId;
   final String productName;
-  final String productPrice;
+  double productPrice;
+  double? cartProductPrice;
   final String productQuantity;
   final String productCategory;
   final String subCategory;
@@ -17,6 +18,7 @@ class ProductModel {
   final String discountActive;
   final String discountPercentage;
   final String productImageString;
+  bool isInCart;
 
   ProductModel({
     required this.productId,
@@ -25,6 +27,7 @@ class ProductModel {
     required this.productQuantity,
     required this.productCategory,
     required this.subCategory,
+    this.cartProductPrice,
     required this.priorityOfFood,
     required this.productDescription,
     this.productImage,
@@ -35,6 +38,7 @@ class ProductModel {
     required this.discountActive,
     required this.discountPercentage,
     required this.productImageString,
+    required this.isInCart,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -42,6 +46,7 @@ class ProductModel {
       productId: json['ProductId'],
       productName: json['ProductName'],
       productPrice: json['ProductPrice'],
+      cartProductPrice: json['ProductPrice'],
       productQuantity: json['ProductQuantity'],
       productCategory: json['ProductCategory'],
       subCategory: json['ProductSubCategory'],
@@ -54,6 +59,7 @@ class ProductModel {
       statusAvailable: json['StatusAvailable'],
       discountActive: json['DiscountActive'],
       discountPercentage: json['DiscountPercentage'],
+      isInCart: false,
     );
   }
 

@@ -52,34 +52,13 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<ResponseModel> loginProvider() async {
-    setLoading();
     AuthModel model = AuthModel(
       eMail: _eMail.text,
       passWord: _passWord.text,
     );
     ResponseModel res = await authController.loginController(model);
-    setLoading();
+
     return res;
-  }
-
-  naviGateTo(BuildContext context) {
-    final user = Get.find<UserDataModel>();
-
-    print(user.role);
-
-    if (user.role == "isUser") {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePageUser()),
-        (route) => false,
-      );
-    } else if (user.role == "isVendor") {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const AdminDashboardPage()),
-        (route) => false,
-      );
-    }
   }
 
   void clearTextFields() {

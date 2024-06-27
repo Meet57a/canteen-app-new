@@ -34,23 +34,12 @@ class ProductDataAdmin {
     }).toList();
   }
 
-  setCategorys() {
-    var seen = Set<String>();
-
-    List<ProductModel> categorysWithProducts =
-        _products.where((e) => seen.add(e.productCategory)).toList();
-    _categorys = categorysWithProducts.map((e) {
-      return CategoryModel(name: e.productCategory);
-    }).toList();
+  setCategorys(List<CategoryModel> val) {
+    _categorys = val;
   }
 
-  setSubCategorys() {
-    var seen = Set<String>();
-    List<ProductModel> subCategorysWithProducts =
-        _products.where((e) => seen.add(e.subCategory)).toList();
-    _subCategorys = subCategorysWithProducts.map((e) {
-      return CategoryModel(name: e.subCategory);
-    }).toList();
+  setSubCategorys(List<CategoryModel> val) {
+    _subCategorys = val;
   }
 
   setPrioritys() {

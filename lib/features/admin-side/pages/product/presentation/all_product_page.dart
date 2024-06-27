@@ -25,7 +25,7 @@ class _AllProductPageState extends State<AllProductPage> {
     super.initState();
     final provider = Provider.of<ProductListProvider>(context, listen: false);
     provider.getHeader("categorys");
-    provider.setDataZerothIndex("categorys", provider.cate[0].name);
+    provider.setDataZerothIndex("categorys", provider.cate[0].categoryNameMain);
   }
 
   @override
@@ -54,7 +54,7 @@ class _AllProductPageState extends State<AllProductPage> {
                       child: InkWell(
                         onTap: () {
                           value.setData(
-                              index, "categorys", value.cate[index].name);
+                              index, "categorys", value.cate[index].categoryNameMain);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -67,7 +67,7 @@ class _AllProductPageState extends State<AllProductPage> {
                                   )
                                 : null,
                           ),
-                          child: SmallText(text: value.cate[index].name),
+                          child: SmallText(text: value.cate[index].categoryNameMain),
                         ),
                       ),
                     );

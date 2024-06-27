@@ -33,22 +33,70 @@ class ProductControllerAdmin {
     return responseModel;
   }
 
-  getProduct() async {
+  Future<ResponseModel> addCategoryController(CategoryModel model) async {
+    final prefs = await SharedPreferences.getInstance();
+    Response response =
+        await service.addCategory(model, prefs.getString('token') ?? "");
+
+    var responseDecode = jsonDecode(response.body);
+
+    late ResponseModel responseModel;
+
+    if (response.statusCode == 200) {
+      responseModel = ResponseModel.fromJson(responseDecode);
+    } else {
+      responseModel = ResponseModel.fromJson(responseDecode);
+    }
+
+    return responseModel;
+  }
+
+  Future<ResponseModel> addSubCategoryController(CategoryModel model) async {
+    final prefs = await SharedPreferences.getInstance();
+    Response response =
+        await service.addSubCategory(model, prefs.getString('token') ?? "");
+
+    var responseDecode = jsonDecode(response.body);
+
+    late ResponseModel responseModel;
+
+    if (response.statusCode == 200) {
+      responseModel = ResponseModel.fromJson(responseDecode);
+    } else {
+      responseModel = ResponseModel.fromJson(responseDecode);
+    }
+
+    return responseModel;
+  }
+
+  getAll() async {
     try {
       Response response = await service.getProducts();
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        final List<dynamic> jsonData = data['data'];
+        final jsonData = data['data'];
 
-        List<ProductModel> products = jsonData.map((e) {
+        final List<dynamic> productDataJson = jsonData['products'];
+        final List<dynamic> categoryDataJson = jsonData['category'];
+        final List<dynamic> subCategoryDataJson = jsonData['subCategory'];
+
+        List<ProductModel> products = productDataJson.map((e) {
           return ProductModel.fromJson(e);
         }).toList();
 
+        List<CategoryModel> category = categoryDataJson.map((e) {
+          return CategoryModel.fromJson(e);
+        }).toList();
+        print(category);
+        List<CategoryModel> subCategory = subCategoryDataJson.map((e) {
+          return CategoryModel.fromJson(e);
+        }).toList();
+        print(category[0].categoryNameMain);
         productData.setProducts(products);
-        productData.setCategorys();
+        productData.setCategorys(category);
+        productData.setSubCategorys(subCategory);
         productData.setPrioritys();
-        productData.setSubCategorys();
         productData.setMenu();
       }
     } catch (e) {

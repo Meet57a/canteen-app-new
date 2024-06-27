@@ -13,6 +13,7 @@ class UserDataProvider {
     prefs.setString("mobileNo", userData['MobileNo']);
     prefs.setString("role", userData['Role']);
     prefs.setString("userId", userData['UserId']);
+    prefs.setString("address", userData["Address"]);
     prefs.setBool("isLoggedIn", isLoggedIn);
 
     final userModel = Get.find<UserDataModel>();
@@ -24,5 +25,6 @@ class UserDataProvider {
     userModel.role = userData['Role'];
     userModel.userId = userData['UserId'];
     userModel.isLoggedIn = isLoggedIn;
+    userModel.address = userData["Address"];
   }
 }

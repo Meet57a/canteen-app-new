@@ -1,5 +1,8 @@
+import 'package:canteen/core/widget/snack_bar_helper.dart';
 import 'package:canteen/features/user-side/pages/user-home/provider/home_page_provider.dart';
+import 'package:canteen/features/user-side/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/theme/color_pallete.dart';
@@ -64,8 +67,11 @@ class PrioritysWiseProductsShow extends StatelessWidget {
                                 Container(
                                   height: 160,
                                   width: double.infinity,
-                                  padding:
-                                      const EdgeInsets.only(left: 10, top: 10),
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 10,
+                                    right: 10,
+                                  ),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(20),
@@ -90,8 +96,8 @@ class PrioritysWiseProductsShow extends StatelessWidget {
                                         width: 100,
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.white.withOpacity(0.5),
+                                              BorderRadius.circular(30),
+                                          color: Colors.white,
                                         ),
                                         child: const Row(
                                           mainAxisAlignment:
@@ -111,16 +117,92 @@ class PrioritysWiseProductsShow extends StatelessWidget {
                                       Container(
                                         height: 40,
                                         width: 50,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.white.withOpacity(0.5),
+                                          color: Color.fromARGB(
+                                              255, 230, 227, 227),
                                         ),
-                                        child: IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                            Icons.favorite_border,
-                                            size: 23,
-                                          ),
+                                        child: Consumer<CartProvider>(
+                                          builder: (context, valueCartProvider,
+                                              child) {
+                                            return IconButton(
+                                              onPressed: () {
+                                          
+                                                if (value.productsListPriorityWise[index].isInCart == true) {
+                                                  valueCartProvider
+                                                      .removeProductFromCart(value
+                                                          .productsListPriorityWise[
+                                                              index]
+                                                          .productId)
+                                                      .then((value) => {
+                                                            if (value.status ==
+                                                                true)
+                                                              {
+                                                                SnackBarHelper
+                                                                    .showSnackBar(
+                                                                        context,
+                                                                        value
+                                                                            .message,
+                                                                        false),
+                                                              }
+                                                            else
+                                                              {
+                                                                SnackBarHelper
+                                                                    .showSnackBar(
+                                                                        context,
+                                                                        value
+                                                                            .message,
+                                                                        true),
+                                                              }
+                                                          });
+                                                } else {
+                                                  valueCartProvider
+                                                      .addProductToCart(
+                                                          value
+                                                              .productsListPriorityWise[
+                                                                  index]
+                                                              .productId,
+                                                          1)
+                                                      .then((value) => {
+                                                            if (value.status ==
+                                                                true)
+                                                              {
+                                                                SnackBarHelper
+                                                                    .showSnackBar(
+                                                                        context,
+                                                                        value
+                                                                            .message,
+                                                                        false),
+                                                              }
+                                                            else
+                                                              {
+                                                                SnackBarHelper
+                                                                    .showSnackBar(
+                                                                        context,
+                                                                        value
+                                                                            .message,
+                                                                        true),
+                                                              }
+                                                          });
+                                                }
+                                              },
+                                              icon: value
+                                                          .productsListPriorityWise[
+                                                              index]
+                                                          .isInCart ==
+                                                      true
+                                                  ? const Icon(
+                                                      Icons.shopping_cart,
+                                                      color: AppColorPallete
+                                                          .primaryColor,
+                                                    )
+                                                  : const Icon(
+                                                      Icons.add_shopping_cart,
+                                                      color: AppColorPallete
+                                                          .primaryColor,
+                                                    ),
+                                            );
+                                          },
                                         ),
                                       ),
                                     ],
@@ -146,7 +228,8 @@ class PrioritysWiseProductsShow extends StatelessWidget {
                                               text: value
                                                   .productsListPriorityWise[
                                                       index]
-                                                  .productPrice,
+                                                  .productPrice
+                                                  .toString(),
                                             ),
                                             const Spacer(),
                                             SmallText(

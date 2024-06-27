@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../util/constants.dart';
@@ -11,16 +10,14 @@ class BigText extends StatelessWidget {
   final FontWeight? fontWeight;
   final TextAlign? textAlign;
 
-
   const BigText({
     super.key,
     required this.text,
-    this.size = Dimensions.mainFontSize20,
+    this.size = Dimensions.mainFontSize18,
     this.textOverflow = TextOverflow.ellipsis,
     this.color,
     this.fontWeight = FontWeight.normal,
     this.textAlign = TextAlign.center,
-   
   });
 
   @override

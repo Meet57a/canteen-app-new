@@ -1,24 +1,26 @@
-import 'package:canteen/features/user-side/data/product_data.dart';
-import 'package:canteen/features/user-side/pages/user-home/provider/home_page_provider.dart';
-import 'package:canteen/features/user-side/pages/user-product/product_list_categorys.dart';
+import 'package:canteen/features/user-side/pages/user-product/provider/producr_list_categoory_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/theme/color_pallete.dart';
 import '../../../../../core/widget/small_text.dart';
-import '../../user-product/provider/producr_list_categoory_provider.dart';
 
-class CategoryContainer extends StatelessWidget {
-  const CategoryContainer({super.key});
+class ListBuilderCategory extends StatelessWidget {
+  final String cateName;
+  const ListBuilderCategory({
+    super.key,
+    required this.cateName,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 110,
-      child: Consumer<HomePageProvider>(
+      child: Consumer<ProductListCategoryProvider>(
         builder: (context, value, child) {
+          value.setSubCategory(cateName);
           return ListView.builder(
-            itemCount: value.productData.categorys.length,
+            itemCount: value.subCategoryList.length,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -26,20 +28,9 @@ class CategoryContainer extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 10),
                 child: InkWell(
                   onTap: () {
-                    Provider.of<ProductListCategoryProvider>(context,
-                            listen: false)
-                        .productList
-                        .clear();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProductListCategoryWise(
-                          categoryName: value
-                              .productData.categorys[index].categoryNameMain,
-                          categoryImage:
-                              value.productData.categorys[index].image,
-                        ),
-                      ),
+                    value.setData(
+                      value.subCategoryList[index].subCategory,
+                      index,
                     );
                   },
                   child: Container(
@@ -55,6 +46,12 @@ class CategoryContainer extends StatelessWidget {
                         ),
                       ],
                       borderRadius: BorderRadius.circular(30),
+                      border: value.index == index
+                          ? Border.all(
+                              color: AppColorPallete.primaryColor,
+                              width: 2,
+                            )
+                          : null,
                     ),
                     child: Column(
                       children: [
@@ -64,11 +61,11 @@ class CategoryContainer extends StatelessWidget {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: NetworkImage(
-                                value.productData.categorys[index].image,
+                                value.subCategoryList[index].image,
                               ),
                               fit: BoxFit.cover,
                             ),
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30),
                             ),
@@ -76,8 +73,7 @@ class CategoryContainer extends StatelessWidget {
                         ),
                         const SizedBox(height: 7),
                         SmallText(
-                          text: value
-                              .productData.categorys[index].categoryNameMain,
+                          text: value.subCategoryList[index].subCategory,
                           fontWeight: FontWeight.bold,
                         ),
                       ],

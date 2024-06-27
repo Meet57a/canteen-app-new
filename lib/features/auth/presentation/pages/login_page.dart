@@ -1,4 +1,8 @@
+import 'package:canteen/features/admin-side/pages/dashboard/presentation/dashboard_page.dart';
+import 'package:canteen/features/user-side/pages/user-home/user_home_page.dart';
+import 'package:canteen/model/user_data_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/theme/color_pallete.dart';
 import '../../../../core/widget/big_text.dart';
@@ -108,7 +112,22 @@ class _LoginPageState extends State<LoginPage> {
                           if (val.status == true) {
                             SnackBarHelper.showSnackBar(
                                 context, val.message, false);
-                            value.naviGateTo(context);
+                            final userDataModel = Get.find<UserDataModel>();
+                            if (userDataModel.role == "isUser") {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePageUser()),
+                                (route) => false,
+                              );
+                            }else if(userDataModel.role == "isVendor"){
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AdminDashboardPage()),
+                                (route) => false,
+                              );
+                            }
                             value.clearTextFields();
                           } else {
                             SnackBarHelper.showSnackBar(

@@ -1,11 +1,17 @@
 import 'package:canteen/core/theme/color_pallete.dart';
 import 'package:canteen/core/util/constants.dart';
 import 'package:canteen/core/widget/eleve_button.dart';
+import 'package:canteen/features/user-side/pages/order-product/order_product_page.dart';
 import 'package:canteen/features/user-side/pages/user-product/component/most_product_list.dart';
-import 'package:canteen/features/user-side/pages/user-product/component/product_details_photo_frame.dart';
+import 'package:canteen/features/user-side/pages/user-product/component/product_photo_frame.dart';
+import 'package:canteen/features/user-side/pages/user-product/provider/product_details_provider.dart';
+import 'package:canteen/features/user-side/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/widget/big_text.dart';
 import '../../../../core/widget/small_text.dart';
+import '../../../../core/widget/snack_bar_helper.dart';
 import '../../../../model/product_model.dart';
 
 class ProductDetailsPage extends StatelessWidget {
@@ -14,6 +20,9 @@ class ProductDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ProductDetailsProvider>(context, listen: false)
+        .setWhenEnter(pdata.productPrice);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -24,7 +33,9 @@ class ProductDetailsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: Dimensions.defualtHeightForSpace),
-              PhotoFrame(image: pdata.productImageString),
+              PhotoFrame(
+                image: pdata.productImageString,
+              ),
               const SizedBox(height: Dimensions.defualtHeightForSpace),
               SizedBox(
                 width: double.infinity,
@@ -65,49 +76,54 @@ class ProductDetailsPage extends StatelessWidget {
                     color: AppColorPallete.primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(
-                    width: 120,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          style: const ButtonStyle(
-                            side: MaterialStatePropertyAll(
-                              BorderSide(
-                                color: AppColorPallete.primaryColor,
+                  Consumer<ProductDetailsProvider>(
+                    builder: (context, valueProductdetails, child) {
+                      return Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              valueProductdetails.minus(pdata.productPrice);
+                            },
+                            style: const ButtonStyle(
+                              side: MaterialStatePropertyAll(
+                                BorderSide(
+                                  color: AppColorPallete.primaryColor,
+                                ),
+                              ),
+                              minimumSize: MaterialStatePropertyAll(
+                                Size(10, 10),
                               ),
                             ),
-                            minimumSize: MaterialStatePropertyAll(
-                              Size(10, 10),
+                            icon: const Icon(
+                              Icons.remove,
+                              color: AppColorPallete.primaryColor,
                             ),
                           ),
-                          icon: const Icon(
-                            Icons.remove,
-                            color: AppColorPallete.primaryColor,
+                          const SizedBox(width: 5),
+                          SmallText(
+                            text: valueProductdetails.quantity.toString(),
+                            fontWeight: FontWeight.bold,
                           ),
-                        ),
-                        const SizedBox(width: 5),
-                        const SmallText(
-                          text: "1",
-                          fontWeight: FontWeight.bold,
-                        ),
-                        const SizedBox(width: 5),
-                        IconButton(
-                          onPressed: () {},
-                          style: const ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                AppColorPallete.primaryColor),
-                            minimumSize: MaterialStatePropertyAll(
-                              Size(10, 10),
+                          const SizedBox(width: 5),
+                          IconButton(
+                            onPressed: () {
+                              valueProductdetails.add(pdata.productPrice);
+                            },
+                            style: const ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  AppColorPallete.primaryColor),
+                              minimumSize: MaterialStatePropertyAll(
+                                Size(10, 10),
+                              ),
+                            ),
+                            icon: const Icon(
+                              Icons.add,
+                              color: Colors.white,
                             ),
                           ),
-                          icon: const Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),
@@ -149,14 +165,118 @@ class ProductDetailsPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              ElevatedButtonCustom(
-                onPressed: () {},
-                color: AppColorPallete.primaryColor,
-                borderColor: AppColorPallete.primaryColor,
-                child: const SmallText(
-                  text: "Add To Cart",
-                  fontWeight: FontWeight.bold,
-                ),
+              Consumer<ProductDetailsProvider>(
+                builder: (context, valueProductDetailsProvider, child) {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButtonCustom(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OrderProductPage(
+                                    pdata: pdata,
+                                    qty: valueProductDetailsProvider.quantity),
+                              ),
+                            );
+                          },
+                          color: AppColorPallete.primaryColor,
+                          borderColor: AppColorPallete.primaryColor,
+                          child: Row(
+                            children: [
+                              const BigText(
+                                text: "Order Now",
+                                fontWeight: FontWeight.bold,
+                                color: AppColorPallete.whiteColor,
+                              ),
+                              const Spacer(),
+                              SmallText(
+                                text: valueProductDetailsProvider.total
+                                    .toString(),
+                                fontWeight: FontWeight.bold,
+                                color: AppColorPallete.whiteColor,
+                              ),
+                              const SizedBox(width: 5),
+                              const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 18,
+                                color: AppColorPallete.whiteColor,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Consumer<CartProvider>(
+                        builder: (context, value, child) {
+                          return IconButton(
+                            onPressed: () {
+                              if (pdata.isInCart) {
+                                value
+                                    .removeProductFromCart(pdata.productId)
+                                    .then(
+                                      (value) => {
+                                        if (value.status == true)
+                                          {
+                                            SnackBarHelper.showSnackBar(
+                                                context, value.message, true),
+                                          }
+                                        else
+                                          {
+                                            SnackBarHelper.showSnackBar(
+                                                context, value.message, false),
+                                          }
+                                      },
+                                    );
+                              } else {
+                                value
+                                    .addProductToCart(pdata.productId,
+                                        valueProductDetailsProvider.quantity)
+                                    .then(
+                                      (value) => {
+                                        if (value.status == true)
+                                          {
+                                            SnackBarHelper.showSnackBar(
+                                                context, value.message, true),
+                                          }
+                                        else
+                                          {
+                                            SnackBarHelper.showSnackBar(
+                                                context, value.message, false),
+                                          }
+                                      },
+                                    );
+                              }
+                            },
+                            style: const ButtonStyle(
+                              elevation: MaterialStatePropertyAll(10),
+                              shadowColor: MaterialStatePropertyAll(
+                                  AppColorPallete.primaryColor),
+                              backgroundColor: MaterialStatePropertyAll(
+                                  AppColorPallete.whiteColor),
+                              shape: MaterialStatePropertyAll(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            icon: pdata.isInCart
+                                ? const Icon(
+                                    Icons.shopping_cart,
+                                    color: AppColorPallete.primaryColor,
+                                  )
+                                : const Icon(
+                                    Icons.add_shopping_cart_outlined,
+                                    color: AppColorPallete.primaryColor,
+                                  ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 20),
               SizedBox(

@@ -1,8 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:canteen/core/widget/snack_bar_helper.dart';
+import 'package:canteen/features/user-side/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PhotoFrame extends StatelessWidget {
   final String image;
+
   const PhotoFrame({
     super.key,
     required this.image,
@@ -32,15 +35,8 @@ class PhotoFrame extends StatelessWidget {
             height: 40,
             width: 40,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(5),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                  spreadRadius: 1,
-                ),
-              ],
             ),
             child: IconButton(
               onPressed: () {
@@ -57,43 +53,13 @@ class PhotoFrame extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
-              shape: BoxShape.circle,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                  spreadRadius: 1,
-                ),
-              ],
-            ),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.shopping_cart_outlined,
-                color: Colors.black,
-                size: 18,
-              ),
-            ),
-          ),
           const SizedBox(width: 10),
           Container(
             height: 40,
             width: 40,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
+            decoration: const BoxDecoration(
+              color: Colors.white,
               shape: BoxShape.circle,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                  spreadRadius: 1,
-                ),
-              ],
             ),
             child: IconButton(
               onPressed: () {},

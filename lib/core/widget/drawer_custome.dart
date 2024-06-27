@@ -1,4 +1,5 @@
 import 'package:canteen/core/widget/snack_bar_helper.dart';
+import 'package:canteen/features/admin-side/pages/product/presentation/components/add-component/add_category_and_sub_category.dart';
 import 'package:canteen/features/admin-side/pages/product/presentation/components/add-component/add_coupon_page.dart';
 import 'package:canteen/features/admin-side/pages/product/presentation/components/add-component/add_poster_page.dart';
 import 'package:canteen/features/admin-side/pages/product/presentation/components/add-component/add_product_page.dart';
@@ -312,7 +313,17 @@ class DrawerWidget extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 size: 16,
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AddAndEditCategorysAndSubCategorys(
+                                            addId: 'Category', editId: ''),
+                                  ),
+                                );
+                              },
                             ),
                             ListTile(
                               leading: const Icon(
@@ -323,7 +334,17 @@ class DrawerWidget extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 size: 16,
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AddAndEditCategorysAndSubCategorys(
+                                            addId: 'Sub Category', editId: ''),
+                                  ),
+                                );
+                              },
                             ),
                             ListTile(
                               leading: const Icon(

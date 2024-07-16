@@ -1,4 +1,5 @@
 import 'package:canteen/core/widget/snack_bar_helper.dart';
+import 'package:canteen/features/admin-side/pages/orders_of_product/orders_page.dart';
 import 'package:canteen/features/admin-side/pages/product/presentation/components/add-component/add_category_and_sub_category.dart';
 import 'package:canteen/features/admin-side/pages/product/presentation/components/add-component/add_coupon_page.dart';
 import 'package:canteen/features/admin-side/pages/product/presentation/components/add-component/add_poster_page.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
+import '../../features/admin-side/pages/product/presentation/components/edit-component/edit_posters_and_coupon_list_page.dart';
 import '../provider/drawer_provider.dart';
 import '../theme/color_pallete.dart';
 import '../util/constants.dart';
@@ -155,7 +157,15 @@ class DrawerWidget extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 size: 16,
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const OrdersPage(
+                                        orderStatus: "Pending"),
+                                  ),
+                                );
+                              },
                             ),
                             ListTile(
                               leading: const Icon(
@@ -166,7 +176,15 @@ class DrawerWidget extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 size: 16,
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const OrdersPage(
+                                        orderStatus: "Pending"),
+                                  ),
+                                );
+                              },
                             ),
                             ListTile(
                               leading: const Icon(
@@ -247,7 +265,15 @@ class DrawerWidget extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 size: 16,
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PosterAndCouponsPage(
+                                                isPoster: true)));
+                              },
                             ),
                             ListTile(
                               leading: const Icon(
@@ -258,7 +284,15 @@ class DrawerWidget extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 size: 16,
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PosterAndCouponsPage(
+                                                isPoster: false)));
+                              },
                             ),
                           ],
                         ),
@@ -361,7 +395,7 @@ class DrawerWidget extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const AddAndEditPosterPage(
+                                            AddAndEditPosterPage(
                                                 posterId: '')));
                               },
                             ),

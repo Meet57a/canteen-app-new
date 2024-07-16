@@ -1,5 +1,5 @@
 class Routes {
-  static const url = 'http://192.168.142.238:3000/';
+  static const url = 'http://10.80.5.56:3000/';
   //auth
   static const createUser = "${url}registerUser";
   static const loginUser = "${url}loginUser";
@@ -19,4 +19,13 @@ class Routes {
   static const addProductToCart = "${url}cart/addProduct/";
   static const deleteProductToCart = "${url}cart/deleteProduct/";
   static const getProductToCart = "${url}cart/getAllCartProduct";
+
+  // posters and coupons
+  static const addPosterRoute = "${url}product/addPoster";
+  static const updatePosterRoute = "${url}product/updatePoster/";
+  static const deletePosterRoute = "${url}product/deletePosters/";
+
+  static const addCouponsRoute = "${url}product/addCoupon";
+  static const updateCouponsRoute = "${url}product/updateCoupon/";
+  static const deleteCouponsRoute = "${url}product/deleteCoupon/";
 }

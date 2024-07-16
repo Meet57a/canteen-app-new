@@ -72,6 +72,8 @@ class OrderProductProvider with ChangeNotifier {
         orderTotal: _total,
         orderDate: "",
         orderTime: "",
+        userId: "",
+        
       );
       final response = await productController.orderProduct(productId, model);
       return response;

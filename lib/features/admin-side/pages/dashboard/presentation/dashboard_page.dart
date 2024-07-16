@@ -1,8 +1,10 @@
 import 'package:canteen/features/admin-side/controller/product_controller.dart';
 import 'package:canteen/features/admin-side/data/product_data.dart';
 import 'package:canteen/features/admin-side/pages/dashboard/presentation/provider/product_provider.dart';
+import 'package:canteen/features/admin-side/pages/orders_of_product/orders_show_page_admin.dart';
 import 'package:canteen/features/admin-side/pages/product/presentation/all_product_page.dart';
-import 'package:canteen/features/admin-side/pages/product/presentation/components/product_list_page.dart';
+import 'package:canteen/features/admin-side/pages/product/presentation/product_list_page.dart';
+import 'package:canteen/features/user-side/pages/order-product/order_show_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -35,8 +37,19 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   final productControllerAdmin = Get.find<ProductControllerAdmin>();
   final productDataAdmin = Get.find<ProductDataAdmin>();
 
+  get() async {
+    await productControllerAdmin.getAll();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    get();
+  }
+
   Future refresh() async {
     await Future.delayed(const Duration(seconds: 2));
+    get();
     setState(() {});
   }
 
@@ -77,62 +90,73 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
           physics: const ClampingScrollPhysics(),
           padding:
               const EdgeInsets.symmetric(horizontal: Dimensions.defaultPadding),
-          child: Column(
-            children: [
-              //AnalyticsSection
+          child: FutureBuilder(
+            future: productControllerAdmin.getAll(),
+            builder: (context, snapshot) {
+              return Column(
+                children: [
+                  //AnalyticsSection
 
-              const SizedBox(height: Dimensions.defualtHeightForSpace),
-              const BigText(text: "Welcome, Meet"),
-              const SizedBox(height: Dimensions.defualtHeightForSpace),
-              const AnalyticsSection(),
+                  const SizedBox(height: Dimensions.defualtHeightForSpace),
+                  const BigText(text: "Welcome, Meet"),
+                  const SizedBox(height: Dimensions.defualtHeightForSpace),
+                  AnalyticsSection(),
 
-              //AnalyticsSection
-              Divider(
-                thickness: 2,
-                color: Theme.of(context).dividerColor,
-              ),
+                  //AnalyticsSection
+                  Divider(
+                    thickness: 2,
+                    color: Theme.of(context).dividerColor,
+                  ),
 
-              //RecentOrderContainer
+                  //RecentOrderContainer
 
-              const SizedBox(height: Dimensions.defualtHeightForSpace),
-              const RecentOrderContainer(),
-              const SizedBox(height: Dimensions.defualtHeightForSpace),
+                  const SizedBox(height: Dimensions.defualtHeightForSpace),
+                  RecentOrderContainer(),
+                  const SizedBox(height: Dimensions.defualtHeightForSpace),
 
-              //RecentOrderContainer
+                  //RecentOrderContainer
 
-              ElevatedButtonCustomeDashboard(
-                onPressed: () {},
-                value: "12",
-                title: "Orders",
-                containerColor: AppColorPallete.colorGreenWithope,
-                color: AppColorPallete.greenColor,
-              ), //button custome widget
+                  ElevatedButtonCustomeDashboard(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OrderShowPageAdmin()));
+                    },
+                    value: productControllerAdmin.productData.orders.length
+                        .toString(),
+                    title: "Orders",
+                    containerColor: AppColorPallete.colorGreenWithope,
+                    color: AppColorPallete.greenColor,
+                  ), //button custome widget
 
-              //RevenueContainer
+                  //RevenueContainer
 
-              const SizedBox(height: Dimensions.defualtHeightForSpace),
-              const RevenueContainer(),
-              const SizedBox(height: Dimensions.defualtHeightForSpace),
+                  const SizedBox(height: Dimensions.defualtHeightForSpace),
+                  const RevenueContainer(),
+                  const SizedBox(height: Dimensions.defualtHeightForSpace),
 
-              //RevenueContainer
+                  //RevenueContainer
 
-              Divider(
-                thickness: 2,
-                color: Theme.of(context).dividerColor,
-              ),
+                  Divider(
+                    thickness: 2,
+                    color: Theme.of(context).dividerColor,
+                  ),
 
-              //ProductContainer
+                  //ProductContainer
 
-              const SizedBox(height: Dimensions.defualtHeightForSpace),
+                  const SizedBox(height: Dimensions.defualtHeightForSpace),
 
-              ProductContainer(),
+                  ProductContainer(),
 
-              const SizedBox(height: Dimensions.defualtHeightForSpace),
+                  const SizedBox(height: Dimensions.defualtHeightForSpace),
 
-              const SizedBox(height: Dimensions.defualtHeightForSpace),
+                  const SizedBox(height: Dimensions.defualtHeightForSpace),
 
-              //ProductContainer
-            ],
+                  //ProductContainer
+                ],
+              );
+            },
           ),
         ),
       ),

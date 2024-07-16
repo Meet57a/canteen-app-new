@@ -1,6 +1,9 @@
-
+import 'package:canteen/features/admin-side/data/product_data.dart';
+import 'package:canteen/features/admin-side/provider/order_product_show_provider_admin.dart';
+import 'package:canteen/features/user-side/pages/order-product/provider/order_show_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../core/util/constants.dart';
@@ -9,10 +12,11 @@ import '../../../../../../core/widget/custome_container.dart';
 import '../../../../../../core/widget/small_text.dart';
 
 class RecentOrderContainer extends StatelessWidget {
-  const RecentOrderContainer({
+  RecentOrderContainer({
     super.key,
   });
 
+  final value = Get.find<ProductDataAdmin>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,13 +33,13 @@ class RecentOrderContainer extends StatelessWidget {
         children: [
           const BigText(text: "Recent Orders"),
           const SizedBox(height: 10),
-          CustomeContainer(
+          const CustomeContainer(
             height: 40,
             width: double.infinity,
             color: Color.fromARGB(143, 76, 175, 79),
             borderColor: Color(0xff2bc155),
             isShadowOn: false,
-            child: const Row(
+            child: Row(
               children: [
                 Expanded(
                   child: SmallText(
@@ -70,7 +74,7 @@ class RecentOrderContainer extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: 5,
+              itemCount: value.orders.length,
               itemBuilder: (context, index) {
                 return Container(
                   height: 40,
@@ -80,26 +84,31 @@ class RecentOrderContainer extends StatelessWidget {
                     children: [
                       Expanded(
                         child: SmallText(
-                          text: "ORD-1234",
+                          text: value.orders[index].orderId,
                           textAlign: TextAlign.center,
                         ),
                       ),
                       Expanded(
                         child: SmallText(
-                          text: "John Doe",
+                          text: value.orders[index].userFullName!,
                           textAlign: TextAlign.center,
                         ),
                       ),
                       Expanded(
                         child: SmallText(
-                          text: "12/12/2021",
+                          text: value.orders[index].orderDate.substring(0, 10),
                           textAlign: TextAlign.center,
                         ),
                       ),
                       Expanded(
                         child: SmallText(
-                          text: "Delivered",
+                          text: value.orders[index].orderStatus,
                           textAlign: TextAlign.center,
+                          color: value.orders[index].orderStatus == "Pending"
+                              ? Colors.red
+                              : value.orders[index].orderStatus == "Served"
+                                  ? Colors.green
+                                  : Colors.blue,
                         ),
                       ),
                     ],

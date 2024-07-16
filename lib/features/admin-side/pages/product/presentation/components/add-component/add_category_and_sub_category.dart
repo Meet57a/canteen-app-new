@@ -4,7 +4,7 @@ import 'package:canteen/core/widget/big_text.dart';
 import 'package:canteen/core/widget/eleve_button.dart';
 import 'package:canteen/core/widget/snack_bar_helper.dart';
 import 'package:canteen/core/widget/txt_field.dart';
-import 'package:canteen/features/admin-side/pages/product/presentation/provider/add_component_provider.dart';
+import 'package:canteen/features/admin-side/pages/product/presentation/provider/add_edit_component_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

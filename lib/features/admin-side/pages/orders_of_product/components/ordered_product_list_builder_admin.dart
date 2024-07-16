@@ -1,23 +1,19 @@
-import 'package:canteen/core/widget/snack_bar_helper.dart';
-import 'package:canteen/features/user-side/pages/order-product/provider/order_show_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../core/theme/color_pallete.dart';
 import '../../../../../core/util/constants.dart';
-import '../../../../../core/util/image_strings.dart';
 import '../../../../../core/widget/big_text.dart';
 import '../../../../../core/widget/small_text.dart';
-import '../../../widgets/elevated_button_user.dart';
+import '../../../../user-side/widgets/elevated_button_user.dart';
+import '../../../provider/order_product_show_provider_admin.dart';
 
-class OrderedProductListBuilder extends StatelessWidget {
-  const OrderedProductListBuilder({super.key});
+class OrderedProductListBuilderAdmin extends StatelessWidget {
+  const OrderedProductListBuilderAdmin({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Consumer<OrderShowProvider>(
+      child: Consumer<OrderProductShowProviderAdmin>(
         builder: (context, value, child) {
           return ListView.builder(
             itemCount: value.productData.orderedProducts.length,
@@ -108,10 +104,10 @@ class OrderedProductListBuilder extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: Dimensions.defualtHeightForSpace),
-                      Row(
+                      const Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Expanded(
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -119,27 +115,6 @@ class OrderedProductListBuilder extends StatelessWidget {
                                   text: "Estimated Arrival",
                                   color: AppColorPallete.greyColor,
                                 ),
-                                Row(
-                                  children: [
-                                    BigText(
-                                      text: "25",
-                                      fontWeight: FontWeight.bold,
-                                      size: 35,
-                                    ),
-                                    SizedBox(width: 4),
-                                    SizedBox(
-                                      height: 30,
-                                      child: Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: SmallText(
-                                          text: "min",
-                                          size: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
                               ],
                             ),
                           ),
@@ -147,25 +122,11 @@ class OrderedProductListBuilder extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                const SmallText(
+                                SmallText(
                                   text: "Now",
                                   color: AppColorPallete.greyColor,
                                 ),
-                                BigText(
-                                  text: value
-                                      .productData.orders[index].orderStatus,
-                                  size: 16,
-                                  color: value.productData.orders[index]
-                                              .orderStatus !=
-                                          "Pending"
-                                      ? value.productData.orders[index]
-                                                  .orderStatus ==
-                                              "Accepted"
-                                          ? AppColorPallete.greenColor
-                                          : AppColorPallete.greyColor
-                                      : Colors.red,
-                                  fontWeight: FontWeight.bold,
-                                )
+                               
                               ],
                             ),
                           ),
@@ -175,78 +136,7 @@ class OrderedProductListBuilder extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ElevatedButtonCustomUser(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const BigText(
-                                        text: "Cancel Order",
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red,
-                                      ),
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const BigText(
-                                            text:
-                                                "Are you sure you want to cancel this order?",
-                                            textOverflow: TextOverflow.visible,
-                                          ),
-                                          const SizedBox(
-                                              height: Dimensions
-                                                  .defualtHeightForSpace),
-                                          ElevatedButtonCustomUser(
-                                            onPressed: () {
-                                              value
-                                                  .deleteFromOreders(
-                                                      value
-                                                          .productData
-                                                          .orders[index]
-                                                          .orderId,
-                                                      value
-                                                          .productData
-                                                          .orders[index]
-                                                          .productId)
-                                                  .then(
-                                                    (value) => {
-                                                      if (value.status == true)
-                                                        {
-                                                          Navigator.pop(
-                                                              context),
-                                                          SnackBarHelper
-                                                              .showSnackBar(
-                                                                  context,
-                                                                  value.message,
-                                                                  false)
-                                                        }
-                                                      else
-                                                        {
-                                                          SnackBarHelper
-                                                              .showSnackBar(
-                                                                  context,
-                                                                  value.message,
-                                                                  true)
-                                                        }
-                                                    },
-                                                  );
-                                            },
-                                            color: Colors.red,
-                                            child: const Center(
-                                              child: BigText(
-                                                text: "Yes",
-                                                color:
-                                                    AppColorPallete.whiteColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                              onPressed: () {},
                               child: const Center(
                                 child: BigText(
                                   text: "Cancel",

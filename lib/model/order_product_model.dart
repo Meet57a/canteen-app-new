@@ -1,6 +1,7 @@
 class OrderProductModel {
   final String orderId;
   final String productId;
+  final String userId;
   final int orderQuantity;
   final double deliveryCharge;
   final double taxAndFees;
@@ -11,6 +12,16 @@ class OrderProductModel {
   final String? orderTimeRequired;
   final String orderDate;
   final String orderTime;
+  final String? productName;
+  final double? productPrice;
+  final String? userFullName;
+  final String? userAddress;
+  final String? userEmail;
+  final String? userPhone;
+  final double? orderDiliveryCharge;
+  final double? orderTax;
+  final int? orderDiscount;
+  final String? orderPayment;
 
   OrderProductModel({
     required this.orderId,
@@ -25,6 +36,18 @@ class OrderProductModel {
     this.orderTimeRequired,
     required this.orderDate,
     required this.orderTime,
+    this.productName,
+    this.productPrice,
+    required this.userId,
+    this.userFullName,
+    this.userAddress,
+    this.userEmail,
+    this.userPhone,
+    this.orderDiliveryCharge,
+    this.orderTax,
+    this.orderDiscount,
+    this.orderPayment,
+    
   });
 
   factory OrderProductModel.fromJson(Map<String, dynamic> json) {
@@ -41,6 +64,18 @@ class OrderProductModel {
       orderTimeRequired: json['OrderTimeRequired'],
       orderDate: json['createdAt'].toString(),
       orderTime: json['createdAt'].toString(),
+      productName: json['ProductName'],
+      productPrice: json['ProductPrice'],
+      userId: json['UserId'],
+      userFullName: json['UserFullName'],
+      userAddress: json['UserAddress'],
+      userEmail: json['UserEmail'],
+      userPhone: json['UserPhone'],
+      orderDiliveryCharge: json['OrderDiliveryCharge'],
+      orderTax: json['OrderTax'],
+      orderDiscount: json['OrderDiscount'],
+      orderPayment: json['OrderPayment'],
+      
     );
   }
 

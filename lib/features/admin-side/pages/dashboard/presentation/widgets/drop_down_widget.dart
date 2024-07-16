@@ -5,19 +5,22 @@ import '../../../../../../core/widget/small_text.dart';
 
 class DropDownWidget extends StatelessWidget {
   final List list;
-  final Function() onPressed;
+  final Function()? onPressed;
   final Function(dynamic) onChanged;
   final String validatorText;
   final IconData suffixIcon;
   final String hintText;
+  final bool? editOn;
+
   const DropDownWidget({
     super.key,
     required this.list,
-    required this.onPressed,
+    this.onPressed,
     required this.onChanged,
     required this.validatorText,
     required this.suffixIcon,
     required this.hintText,
+    this.editOn = true,
   });
 
   @override
@@ -39,10 +42,12 @@ class DropDownWidget extends StatelessWidget {
         return null;
       },
       decoration: InputDecoration(
-        suffixIcon: IconButton(
-          onPressed: onPressed,
-          icon: const Icon(Icons.edit),
-        ),
+        suffixIcon: editOn!
+            ? IconButton(
+                onPressed: onPressed,
+                icon: const Icon(Icons.edit),
+              )
+            : null,
         filled: true,
         fillColor: Theme.of(context).scaffoldBackgroundColor ==
                 AppColorPallete.backgroundColor
@@ -62,6 +67,7 @@ class DropDownWidget extends StatelessWidget {
           ),
         ),
       ),
+      
       items: list
           .map(
             (e) => DropdownMenuItem(
@@ -72,8 +78,8 @@ class DropDownWidget extends StatelessWidget {
             ),
           )
           .toList(),
-     
       onChanged: onChanged,
+
     );
   }
 }

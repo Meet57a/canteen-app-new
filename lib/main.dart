@@ -1,7 +1,7 @@
 import 'package:canteen/core/provider/drawer_provider.dart';
 import 'package:canteen/core/theme/theme_provider.dart';
 import 'package:canteen/features/admin-side/pages/dashboard/presentation/provider/product_provider.dart';
-import 'package:canteen/features/admin-side/pages/product/presentation/provider/add_component_provider.dart';
+import 'package:canteen/features/admin-side/pages/product/presentation/provider/add_edit_component_provider.dart';
 import 'package:canteen/features/admin-side/pages/product/presentation/provider/product_provider.dart';
 import 'package:canteen/features/auth/provider/auth_provider.dart';
 import 'package:canteen/features/splash-screen/presentation/pages/splash_screen_page.dart';
@@ -17,6 +17,7 @@ import 'package:canteen/core/helper/dependencies.dart' as dep;
 import 'package:google_fonts/google_fonts.dart';
 
 import 'features/admin-side/pages/product/presentation/provider/product_list_provider.dart';
+import 'features/admin-side/provider/order_product_show_provider_admin.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,14 +72,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => OrderShowProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => OrderProductShowProviderAdmin(),
+        ),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, value, child) {
           return MaterialApp(
             title: 'Flutter Demo',
-            theme: ThemeData(
-              textTheme: GoogleFonts.poppinsTextTheme(),
-            ),
+            theme: value.themeData,
             home: const SplashPage(),
           );
         },

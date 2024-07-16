@@ -10,7 +10,7 @@ import 'package:canteen/features/admin-side/pages/product/presentation/provider/
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../provider/product_list_provider.dart';
+import 'provider/product_list_provider.dart';
 
 class ProductList extends StatefulWidget {
   final String pageId;
@@ -25,6 +25,7 @@ class _ProductListState extends State<ProductList> {
   void initState() {
     super.initState();
     final provider = Provider.of<ProductListProvider>(context, listen: false);
+    provider.clearAll();
     provider.getHeader(widget.pageId);
     String id = widget.pageId == "categorys"
         ? provider.cate[0].categoryNameMain
@@ -102,7 +103,8 @@ class _ProductListState extends State<ProductList> {
                                     )
                                   : widget.pageId == "subCategorys"
                                       ? SmallText(
-                                          text: value.subCate[index].subCategory,
+                                          text:
+                                              value.subCate[index].subCategory,
                                         )
                                       : SmallText(
                                           text: value.menu[index].name,

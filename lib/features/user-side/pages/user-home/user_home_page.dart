@@ -26,6 +26,7 @@ class HomePageUser extends StatefulWidget {
 
 class _HomePageUserState extends State<HomePageUser> {
   final homePageProvider = HomePageProvider();
+  final service = Get.find<AuthServices>();
   final productControllerUser = Get.find<ProductControllerUser>();
 
   getProduct() async {
@@ -91,13 +92,11 @@ class _HomePageUserState extends State<HomePageUser> {
               ),
             );
           } else if (index == 2) {
-            // service.logout();
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const WelcomePage(),
-              ),
-            );
+            service.logOut();
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => WelcomePage()),
+                (route) => false);
           }
         },
       ),

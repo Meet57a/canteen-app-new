@@ -56,7 +56,6 @@ class ProductListProvider extends ChangeNotifier {
           .where((element) => element.productMenu == id)
           .toList();
     }
-
   }
 
   setData(int index, String pageId, String id) {
@@ -84,5 +83,10 @@ class ProductListProvider extends ChangeNotifier {
 
   setState() {
     notifyListeners();
+  }
+
+  clearAll() {
+    _indexPage = 0;
+    _products.clear();
   }
 }

@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:canteen/model/category_model.dart';
 import 'package:canteen/model/order_product_model.dart';
+import 'package:canteen/model/poster_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import '../model/coupon_model.dart';
 import '../model/product_model.dart';
 import 'routes.dart';
 
@@ -137,10 +139,104 @@ class HttpProductsServices {
   }
 
   Future<Response> deleteProductFromOrders(String id, String token) async {
-  
     try {
       Response response = await http.delete(
         Uri.parse(Routes.deleteFromOrdersRoute + id),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': token,
+        },
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> addPoster(String token, PosterModel model) async {
+    try {
+      Response response = await http.post(
+        Uri.parse(Routes.addPosterRoute),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': token,
+        },
+        body: jsonEncode(model),
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> editPoster(
+      String token, PosterModel model, String posterId) async {
+    try {
+      Response response = await http.post(
+        Uri.parse(Routes.updatePosterRoute + posterId),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': token,
+        },
+        body: jsonEncode(model),
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> deletePoster(String token, String posterId) async {
+    try {
+      Response response = await http.delete(
+        Uri.parse(Routes.deletePosterRoute + posterId),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': token,
+        },
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> addCoupons(String token, CouponModel model) async {
+    try {
+      Response response = await http.post(
+        Uri.parse(Routes.addCouponsRoute),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': token,
+        },
+        body: jsonEncode(model),
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> editCoupons(String token, CouponModel model) async {
+    try {
+      Response response = await http.post(
+        Uri.parse(Routes.updateCouponsRoute + model.couponId),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': token,
+        },
+        body: jsonEncode(model),
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> deleteCoupons(String token, String couponId) async {
+    try {
+      Response response = await http.delete(
+        Uri.parse(Routes.deleteCouponsRoute + couponId),
         headers: {
           "Content-Type": "application/json",
           'Authorization': token,

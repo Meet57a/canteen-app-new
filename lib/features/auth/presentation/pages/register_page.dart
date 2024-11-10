@@ -168,53 +168,19 @@ class RegisterPage extends StatelessWidget {
                       }
                     },
                     color: AppColorPallete.primaryColor,
-                    child: const BigText(
-                      text: "Create Account",
-                      color: Colors.white,
-                      size: 15,
-                    ),
+                    child: !value.isLoading
+                        ? const BigText(
+                            text: "Create Account",
+                            color: Colors.white,
+                            size: 15,
+                          )
+                        : const Center(
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          ),
                   ),
-                  const SizedBox(height: 20),
-                  // Row(
-                  //   children: [
-                  //     const Expanded(
-                  //       child: Divider(color: Colors.grey),
-                  //     ),
-                  //     const SizedBox(width: 10),
-                  //     SmallText(
-                  //       text: "Or",
-                  //       size: 15,
-                  //       color: Colors.grey,
-                  //     ),
-                  //     const SizedBox(width: 10),
-                  //     const Expanded(
-                  //       child: Divider(color: Colors.grey),
-                  //     ),
-                  //   ],
-                  // ),
-                  // SizedBox(height: Dimensions.height20),
-                  // ElevetedButtonWidget(
-                  //   onPressed: () {},
-                  //   buttonHeight: Dimensions.height60 + 4,
-                  //   buttonWidth: Dimensions.screenWidth,
-                  //   bgColor: Colors.white,
-                  //   elevation: 2,
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: [
-                  //       SvgPicture.asset(
-                  //         ImagePath.googleIconSvg,
-                  //         height: 30,
-                  //       ),
-                  //       const SizedBox(width: 10),
-                  //       SmallText(
-                  //         text: "Continue with Google",
-                  //         color: Colors.black,
-                  //         size: 15,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

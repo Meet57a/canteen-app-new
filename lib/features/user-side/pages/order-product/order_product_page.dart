@@ -261,7 +261,7 @@ class OrderProductPage extends StatelessWidget {
               ),
               const SizedBox(height: Dimensions.defualtHeightForSpace),
               Container(
-                height: 250,
+                height: 260,
                 width: double.infinity,
                 padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(

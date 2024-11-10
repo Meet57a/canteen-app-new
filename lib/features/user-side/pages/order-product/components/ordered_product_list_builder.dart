@@ -26,7 +26,7 @@ class OrderedProductListBuilder extends StatelessWidget {
                 padding:
                     const EdgeInsets.only(bottom: Dimensions.defaultPadding),
                 child: Container(
-                  height: 300,
+                  height: 310,
                   width: double.infinity,
                   padding: const EdgeInsets.all(Dimensions.defaultPadding),
                   decoration: BoxDecoration(

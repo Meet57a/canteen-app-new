@@ -76,9 +76,9 @@ class AppBarUser extends StatelessWidget {
                 ],
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Image.asset(
-                ImagePath.profileImg,
-                fit: BoxFit.contain,
+              child: Icon(
+                Icons.list_alt,
+                color: AppColorPallete.primaryColor,
               ),
             ),
           ),

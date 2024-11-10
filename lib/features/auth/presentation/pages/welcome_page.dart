@@ -1,11 +1,8 @@
+import 'package:canteen/core/theme/color_pallete.dart';
+import 'package:canteen/core/util/constants.dart';
+import 'package:canteen/core/widget/big_text.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/theme/color_pallete.dart';
-import '../../../../core/util/image_strings.dart';
-import '../../../../core/widget/big_text.dart';
-import '../../../../core/widget/eleve_button.dart';
-import '../../../../core/widget/small_text.dart';
-import 'login_page.dart';
-import 'register_page.dart';
+import 'package:flutter/widgets.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -13,64 +10,47 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: Image.asset(
-                ImagePath.welcomePageIamge,
-                fit: BoxFit.cover,
+      backgroundColor: AppColorPallete.primaryColor,
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                // height: ,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: AppColorPallete.whiteColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                ),
+                child: const SafeArea(
+                  child: Column(
+                    children: [
+                      SizedBox(height: Dimensions.defualtHeightForSpace),
+                      BigText(
+                        text: "Welcome to Canteen",
+                        color: AppColorPallete.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        size: 22,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  const BigText(
-                    text: "Welcome Back",
-                  ),
-                  const SmallText(
-                      textOverflow: TextOverflow.visible,
-                      text:
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut dolor lacus. Nunc eu mauris vitae justo vestibulum faucibus lobortis eu eros."),
-                  const SizedBox(height: 90),
-                  ElevatedButtonCustom(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
-                    },
-                    borderColor: AppColorPallete.primaryColor,
-                    isBorderOn: true,
-                    color: AppColorPallete.whiteColor,
-                    child: const SmallText(
-                      text: "Login",
-                      color: AppColorPallete.primaryColor,
-                      size: 15,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButtonCustom(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RegisterPage()));
-                    },
-                    color: AppColorPallete.primaryColor,
-                    child: const BigText(
-                      text: "Sign Up",
-                      color: AppColorPallete.whiteColor,
-                      size: 15,
-                    ),
-                  ),
-                ],
+          ),
+          const Expanded(
+            child: Center(
+              child: BigText(
+                text: "Welcome to Canteen",
+                color: AppColorPallete.whiteColor,
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

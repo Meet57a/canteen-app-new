@@ -1,5 +1,5 @@
 class Routes {
-  static const url = 'http://10.80.5.56:3000/';
+  static const url = 'http://192.168.153.238:3000/';
   //auth
   static const createUser = "${url}registerUser";
   static const loginUser = "${url}loginUser";

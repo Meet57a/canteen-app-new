@@ -53,8 +53,8 @@ class _AllProductPageState extends State<AllProductPage> {
                           horizontal: Dimensions.defaultPadding),
                       child: InkWell(
                         onTap: () {
-                          value.setData(
-                              index, "categorys", value.cate[index].categoryNameMain);
+                          value.setData(index, "categorys",
+                              value.cate[index].categoryNameMain);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -67,7 +67,8 @@ class _AllProductPageState extends State<AllProductPage> {
                                   )
                                 : null,
                           ),
-                          child: SmallText(text: value.cate[index].categoryNameMain),
+                          child: SmallText(
+                              text: value.cate[index].categoryNameMain),
                         ),
                       ),
                     );
@@ -97,7 +98,7 @@ class _AllProductPageState extends State<AllProductPage> {
                             ),
                           ),
                           SizedBox(
-                            height: 300,
+                            height: 315,
                             child: ListView.builder(
                               itemCount: value.products.length,
                               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -221,14 +222,8 @@ class _AllProductPageState extends State<AllProductPage> {
                                                                           index]
                                                                       .productId)));
                                                     },
-                                                    color: Theme.of(context)
-                                                                .scaffoldBackgroundColor ==
-                                                            AppColorPallete
-                                                                .backgroundColor
-                                                        ? AppColorPallete
-                                                            .orangeColorWitgOpeDarkMode
-                                                        : AppColorPallete
-                                                            .orangeColorWitgOpeLightMode,
+                                                    color: AppColorPallete
+                                                        .primaryColor,
                                                     borderColor: AppColorPallete
                                                         .primaryColor,
                                                     child: const Row(

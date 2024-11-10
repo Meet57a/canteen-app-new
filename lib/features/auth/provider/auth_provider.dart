@@ -36,6 +36,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<ResponseModel> registerProvider() {
+    setLoading();
     AuthModel model = AuthModel(
       fullName: _fullName.text,
       mobileNumber: _mobileNumber.text,
@@ -43,7 +44,9 @@ class AuthProvider extends ChangeNotifier {
       passWord: _passWord.text,
       role: "isUser",
     );
-    return authController.registerController(model);
+    var register = authController.registerController(model);
+    setLoading();
+    return register;
   }
 
   setLoading() {
